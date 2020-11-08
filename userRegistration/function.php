@@ -1,5 +1,6 @@
 <?php
-require_once '../dbConnect/connection.php';
+// require_once '../dbConnect/connection.php';
+$pdo = new PDO('mysql:host=localhost;dbname=myproject' ,'root', '');
 
 //Получить пользователя по Еmail
 function getEmailUser($pdo , $email)
@@ -36,7 +37,7 @@ function setFlashMessage($name , $message)
 //Показать сообщение пользователю
 function displayFlashMessage($name){
 	if (isset($_SESSION[$name])) {
-		echo "<div class=\"alert alert-<?=$name?> text-dark\" role=\"alert\"><?=$_SESSION[$name]?></div>";
+		echo "<div class=\"alert alert-$name text-dark\" role=\"alert\">$_SESSION[$name]</div>";
 	}
 	unset($_SESSION[$name]);
 }
