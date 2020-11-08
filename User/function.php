@@ -9,7 +9,6 @@ function getEmailUser($pdo , $email)
 
 	$statement = $pdo->prepare($sql);
 	$statement->execute(['email' => $email]);
-	$test = 'test';
 
 	$user = $statement->fetch(PDO::FETCH_ASSOC);
 	return $user;

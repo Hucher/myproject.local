@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once 'userRegistration/function.php';
+require_once 'User/function.php';
 $data = [
 	'email' => $_POST['email'],
 	'password' => $_POST['password']
