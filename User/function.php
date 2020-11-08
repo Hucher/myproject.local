@@ -22,7 +22,7 @@ function getAuthUser($pdo , $email, $password){
 	]);
 	$user = $statement->fetch(PDO::FETCH_ASSOC);
 	if($user !== false && password_verify($password, $user['password'])){
-		return true;
+		return $user;
 	}
 	else{
 		return false;

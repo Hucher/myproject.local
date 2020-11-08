@@ -10,9 +10,10 @@ $user = getAuthUser($pdo , $data['email'] , $data['password']);
 
 if(!empty($user))
 {
+	$_SESSION['infoUser'] = $user;
 	$_SESSION['primary'] = 'Авторизация успешна.';
 	setFlashMessage('primary' ,$_SESSION['primary']);
-	redirectTo('page_login.php');
+	redirectTo('users.php');
 }
 else{
 	$_SESSION['warning'] = 'Не верные Email или Password.';
