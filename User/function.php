@@ -1,5 +1,4 @@
 <?php
-// require_once '../dbConnect/connection.php';
 $pdo = new PDO('mysql:host=localhost;dbname=myproject' ,'root', '');
 
 //Получить пользователя по Еmail
@@ -13,7 +12,7 @@ function getEmailUser($pdo , $email)
 	$user = $statement->fetch(PDO::FETCH_ASSOC);
 	return $user;
 }
-
+//Получить авторизованного пользователя
 function getAuthUser($pdo , $email, $password){
 		$sql = "SELECT email,password FROM users WHERE :email=email";
 
@@ -63,4 +62,3 @@ function redirectTo($path)
 {
 	header("location:$path");
 }
-echo 'test';
