@@ -9,9 +9,26 @@ function getEmailUser($pdo , $email)
 
 	$statement = $pdo->prepare($sql);
 	$statement->execute(['email' => $email]);
+	$test = 'test';
 
 	$user = $statement->fetch(PDO::FETCH_ASSOC);
 	return $user;
+}
+
+function getAuthUser($pdo , $email, $password){
+		$sql = "SELECT email,password FROM users WHERE :email=email";
+
+	$statement = $pdo->prepare($sql);
+	$statement->execute([
+		'email'		=>	$email,
+	]);
+	$user = $statement->fetch(PDO::FETCH_ASSOC);
+	if($user !== false && password_verify($password, $user['password'])){
+		return true;
+	}
+	else{
+		return false;
+	}
 }
 
 //Рецистация пользователя(Добавление пользователя в таблицу Users)
