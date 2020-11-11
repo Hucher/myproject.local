@@ -1,5 +1,5 @@
 <?php
-require_once 'userRegistration/function.php';
+require_once 'User/function.php';
 session_start();
 ?>
 <!DOCTYPE html>
