@@ -66,6 +66,7 @@ function redirectTo($path)
     header("location:$path");
     exit();
 }
+
 //Функция проверки не, на авторизованного пользователя
 function isNotLoggedIn()
 {
@@ -78,10 +79,96 @@ function isNotLoggedIn()
 }
 
 //Получить всех пользователей
-function getAllUsers($pdo){
-    $sql = "SELECT * FROM users";
+function getAllUsers($pdo)
+{
+//    $sql = "SELECT * FROM users";
+    $sql = "SELECT * FROM users join (media,general_information) USING (media_id,inform_id)";
     $statement = $pdo->prepare($sql);
     $statement->execute();
     $users = $statement->FetchAll(PDO::FETCH_ASSOC);
     return $users;
+}
+
+//Добавить пользователя
+function add_User($email, $password, $pdo)
+{
+    $sql = "INSERT INTO users (email,password) VALUES (:email ,:password)";
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        "email" => $email,
+        "password" => password_hash($password, PASSWORD_DEFAULT)
+    ]);
+    $userId = $pdo->lastInsertId();
+    return (int)$userId;
+}
+
+function editInformation($userId, $userName, $position, $phone, $address, $pdo)
+{
+    $sql = "INSERT INTO general_information (name, position ,phone ,address,user_id) VALUES (:name ,:position ,:phone ,:address,:user_id)";
+
+    $statement = $pdo->prepare($sql);
+    $result = $statement->execute([
+        'name' => $userName,
+        'position' => $position,
+        'phone' => $phone,
+        'address' => $address,
+        'user_id' => $userId
+    ]);
+    $informId = $pdo->lastInsertId('general_information');
+    $sql2 = "UPDATE users SET inform_id=:inform_id WHERE user_id=:user_id";
+    $statement2 = $pdo->prepare($sql2);
+    $statement2->execute([
+        'inform_id' => $informId,
+        'user_id' => $userId
+    ]);
+
+    return true;
+}
+
+function setStatus($status, $userId, $pdo)
+{
+    $sql = "INSERT INTO media (status,user_id) VALUES (:status ,:user_id)";
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        'status' => $status,
+        'user_id' => $userId
+    ]);
+    $mediaId = $pdo->lastInsertId('media');
+
+    $sql2 = "UPDATE users SET media_id=:media_id WHERE user_id=:user_id";
+    $statement2 = $pdo->prepare($sql2);
+    $statement2->execute([
+        'media_id' => $mediaId,
+        'user_id' => $userId
+    ]);
+    return $mediaId;
+}
+
+function uploadImage($fileTmp, $image, $pdo, $mediaId)
+{
+    $image = uniqid($image);
+    $upload = move_uploaded_file($fileTmp, "img/demo/avatars/" . $image);
+
+    if (!empty($mediaId && !empty($upload))) {
+        $sql = 'UPDATE media SET image=:image WHERE media_id=:media_id';
+        $statement = $pdo->prepare($sql);
+        $statement->execute([
+            'image' => $image,
+            'media_id' => $mediaId
+        ]);
+        return true;
+    }
+    return false;
+}
+
+function addSocialLinks($mediaId, $telegram, $instagram, $vk, $pdo)
+{
+    $sql = 'UPDATE media SET telegram=:telegram,vk=:vk,instagram=:instagram WHERE media_id=:media_id';
+    $statement = $pdo->prepare($sql);
+    $statement->execute([
+        'telegram' => $telegram,
+        'instagram' => $instagram,
+        'vk'=> $vk,
+        'media_id' => $mediaId
+    ]);
 }

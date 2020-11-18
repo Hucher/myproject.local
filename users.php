@@ -19,9 +19,9 @@ session_start();
 </head>
 <body class="mod-bg-1 mod-nav-link">
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary bg-primary-gradient">
-    <a class="navbar-brand d-flex align-items-center fw-500" href="users.html"><img alt="logo"
-                                                                                    class="d-inline-block align-top mr-2"
-                                                                                    src="img/logo.png"> Учебный
+    <a class="navbar-brand d-flex align-items-center fw-500" href="users.php"><img alt="logo"
+                                                                                   class="d-inline-block align-top mr-2"
+                                                                                   src="img/logo.png"> Учебный
         проект</a>
     <button aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
             data-target="#navbarColor02" data-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span>
@@ -44,9 +44,10 @@ session_start();
 </nav>
 
 <main id="js-page-content" role="main" class="page-content mt-3">
-    <div class="alert alert-success">
-        Профиль успешно обновлен.
-    </div>
+<!--    <div class="alert alert-success">-->
+<!--        -->
+<!--    </div>-->
+    <?php displayFlashMessage('success');?>
     <div class="subheader">
         <h1 class="subheader-title">
             <i class='subheader-icon fal fa-users'></i> Список пользователей
@@ -55,7 +56,7 @@ session_start();
     <div class="row">
         <div class="col-xl-12">
             <?php if ($_SESSION['infoUser']['role'] === 'admin'): ?>
-                <a class="btn btn-success" href="create_user.html">Добавить</a>
+                <a class="btn btn-success" href="create_user.php">Добавить</a>
             <?php endif; ?>
             <div class="border-faded bg-faded p-3 mb-g d-flex mt-3">
                 <input type="text" id="js-filter-contacts" name="filter-contacts"
@@ -86,7 +87,7 @@ session_start();
                             <a href="javascript:void(0);" class="fs-xl text-truncate text-truncate-lg text-info"
                                data-toggle="dropdown" aria-expanded="false">
                                 <?= $user['name'] ?>
-                                <?php if ($_SESSION['infoUser']['role'] === 'admin' || $user['id'] === $_SESSION['infoUser']['id']): ?>
+                                <?php if ($_SESSION['infoUser']['role'] === 'admin' || $user['id'] === $_SESSION['infoUser']['user_id']): ?>
                                 <i class="fal fas fa-cog fa-fw d-inline-block ml-1 fs-md"></i>
                                 <i class="fal fa-angle-down d-inline-block ml-1 fs-md"></i>
                             </a>
@@ -128,13 +129,13 @@ session_start();
                         <address class="fs-sm fw-400 mt-4 text-muted">
                             <i class="fas fa-map-pin mr-2"></i> <?= $user['address'] ?></address>
                         <div class="d-flex flex-row">
-                            <a href="javascript:void(0);" class="mr-2 fs-xxl" style="color:#4680C2">
+                            <a href="http://<?=$user['vk']?>" class="mr-2 fs-xxl" style="color:#4680C2">
                                 <i class="fab fa-vk"></i>
                             </a>
-                            <a href="javascript:void(0);" class="mr-2 fs-xxl" style="color:#38A1F3">
+                            <a href="http://<?=$user['telegram']?>" class="mr-2 fs-xxl" style="color:#38A1F3">
                                 <i class="fab fa-telegram"></i>
                             </a>
-                            <a href="javascript:void(0);" class="mr-2 fs-xxl" style="color:#E1306C">
+                            <a href="http://<?=$user['instagram']?>" class="mr-2 fs-xxl" style="color:#E1306C">
                                 <i class="fab fa-instagram"></i>
                             </a>
                         </div>
