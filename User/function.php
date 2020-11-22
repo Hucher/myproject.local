@@ -1,6 +1,15 @@
 <?php
 $pdo = new PDO('mysql:host=myProject.local;dbname=myproject', 'root', 'root');
 
+//Отладочная функция
+function dd(...$data)
+{
+    echo '<pre>';
+    var_dump($data);
+    echo '<pre>';
+    die();
+}
+
 //Получить пользователя по Еmail
 function getEmailUser($pdo, $email)
 {
@@ -102,6 +111,7 @@ function add_User($email, $password, $pdo)
     return (int)$userId;
 }
 
+//записать общую информацию
 function editInformation($userId, $userName, $position, $phone, $address, $pdo)
 {
     $sql = "INSERT INTO general_information (name, position ,phone ,address,user_id) VALUES (:name ,:position ,:phone ,:address,:user_id)";
@@ -125,6 +135,7 @@ function editInformation($userId, $userName, $position, $phone, $address, $pdo)
     return true;
 }
 
+//Установить статус
 function setStatus($status, $userId, $pdo)
 {
     $sql = "INSERT INTO media (status,user_id) VALUES (:status ,:user_id)";
@@ -144,6 +155,7 @@ function setStatus($status, $userId, $pdo)
     return $mediaId;
 }
 
+//Загрузить аватар профиля
 function uploadImage($fileTmp, $image, $pdo, $mediaId)
 {
     $image = uniqid($image);
@@ -161,6 +173,7 @@ function uploadImage($fileTmp, $image, $pdo, $mediaId)
     return false;
 }
 
+//Записать ссылки на соц сети
 function addSocialLinks($mediaId, $telegram, $instagram, $vk, $pdo)
 {
     $sql = 'UPDATE media SET telegram=:telegram,vk=:vk,instagram=:instagram WHERE media_id=:media_id';
@@ -168,7 +181,45 @@ function addSocialLinks($mediaId, $telegram, $instagram, $vk, $pdo)
     $statement->execute([
         'telegram' => $telegram,
         'instagram' => $instagram,
-        'vk'=> $vk,
+        'vk' => $vk,
         'media_id' => $mediaId
     ]);
+}
+
+//Получить пользователя по его ID
+function getUserById($user_id, $pdo)
+{
+    $sql = "SELECT * FROM users JOIN (general_information,media) 
+            on users.user_id=general_information.user_id 
+            and users.user_id=media.user_id WHERE users.user_id=:user_id";
+
+    $statement = $pdo->prepare($sql);
+    $statement->execute(['user_id' => $user_id]);
+
+    $user = $statement->fetch(PDO::FETCH_ASSOC);
+    return $user;
+}
+
+//Редактирование общей информации
+function updateInfo($userId, $userName, $position, $phone, $address, $pdo)
+{
+    $sql = "UPDATE general_information SET name=:name,position=:position,phone=:phone,address=:address WHERE user_id=:user_id";
+
+    $statement = $pdo->prepare($sql);
+    $result = $statement->execute([
+        'name' => $userName,
+        'position' => $position,
+        'phone' => $phone,
+        'address' => $address,
+        'user_id' => $userId
+    ]);
+    return true;
+}
+
+function isAuthor($loggedUserId, $editUserId)
+{
+    if($loggedUserId !== $editUserId){
+        return false;
+    }
+    return true;
 }

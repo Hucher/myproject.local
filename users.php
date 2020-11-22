@@ -44,10 +44,13 @@ session_start();
 </nav>
 
 <main id="js-page-content" role="main" class="page-content mt-3">
-<!--    <div class="alert alert-success">-->
-<!--        -->
-<!--    </div>-->
-    <?php displayFlashMessage('success');?>
+    <!--    <div class="alert alert-success">-->
+    <!--        -->
+    <!--    </div>-->
+    <?php
+    displayFlashMessage('success');
+    displayFlashMessage('warning');
+    ?>
     <div class="subheader">
         <h1 class="subheader-title">
             <i class='subheader-icon fal fa-users'></i> Список пользователей
@@ -87,12 +90,12 @@ session_start();
                             <a href="javascript:void(0);" class="fs-xl text-truncate text-truncate-lg text-info"
                                data-toggle="dropdown" aria-expanded="false">
                                 <?= $user['name'] ?>
-                                <?php if ($_SESSION['infoUser']['role'] === 'admin' || $user['id'] === $_SESSION['infoUser']['user_id']): ?>
+<!--                                --><?php //if ($_SESSION['infoUser']['role'] === 'admin' || $user['id'] === $_SESSION['infoUser']['user_id']): ?>
                                 <i class="fal fas fa-cog fa-fw d-inline-block ml-1 fs-md"></i>
                                 <i class="fal fa-angle-down d-inline-block ml-1 fs-md"></i>
                             </a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="edit.php?id=<?= $user['id'] ?>">
+                                <a class="dropdown-item" href="edit.php?id=<?= $user['user_id'] ?>">
                                     <i class="fa fa-edit"></i>
                                     Редактировать</a>
                                 <a class="dropdown-item" href="security.html">
@@ -112,7 +115,7 @@ session_start();
                             </div>
                             <span class="text-truncate text-truncate-xl"><?= $user['position'] ?></span>
                         </div>
-                        <?php endif;; ?>
+<!--                        --><?php //endif;; ?>
                         <button class="js-expand-btn btn btn-sm btn-default d-none" data-toggle="collapse"
                                 data-target="#c_1 > .card-body + .card-body" aria-expanded="false">
                             <span class="collapsed-hidden">+</span>
@@ -129,13 +132,13 @@ session_start();
                         <address class="fs-sm fw-400 mt-4 text-muted">
                             <i class="fas fa-map-pin mr-2"></i> <?= $user['address'] ?></address>
                         <div class="d-flex flex-row">
-                            <a href="http://<?=$user['vk']?>" class="mr-2 fs-xxl" style="color:#4680C2">
+                            <a href="http://<?= $user['vk'] ?>" class="mr-2 fs-xxl" style="color:#4680C2">
                                 <i class="fab fa-vk"></i>
                             </a>
-                            <a href="http://<?=$user['telegram']?>" class="mr-2 fs-xxl" style="color:#38A1F3">
+                            <a href="http://<?= $user['telegram'] ?>" class="mr-2 fs-xxl" style="color:#38A1F3">
                                 <i class="fab fa-telegram"></i>
                             </a>
-                            <a href="http://<?=$user['instagram']?>" class="mr-2 fs-xxl" style="color:#E1306C">
+                            <a href="http://<?= $user['instagram'] ?>" class="mr-2 fs-xxl" style="color:#E1306C">
                                 <i class="fab fa-instagram"></i>
                             </a>
                         </div>
