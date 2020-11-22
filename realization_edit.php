@@ -14,5 +14,5 @@ $userData = [
 $result = updateInfo($userData['user_id'], $userData['name'], $userData['position'], $userData['phone'], $userData['address'], $pdo);
 $_SESSION['success'] = 'Профиль успешно обновлен';
 setFlashMessage('success', $_SESSION['success']);
-redirectTo('page_profile.php');
+redirectTo('page_profile.php?id=' . $userData['user_id']);
 
