@@ -216,10 +216,24 @@ function updateInfo($userId, $userName, $position, $phone, $address, $pdo)
     return true;
 }
 
+//Проверка на автора (профиля)
 function isAuthor($loggedUserId, $editUserId)
 {
-    if($loggedUserId !== $editUserId){
+    if ($loggedUserId !== $editUserId) {
         return false;
     }
     return true;
+}
+
+//Обновление учетных данных авторизованного пользователя
+function updateAuthUser($userId, $email, $password, $pdo)
+{
+    $sql = "UPDATE users SET email=:email,password=:password WHERE user_id=:user_id";
+    $statement = $pdo->prepare($sql);
+    $user = $statement->execute([
+        'email' => $email,
+        'password' => password_hash($password, PASSWORD_DEFAULT),
+        'user_id' => $userId
+    ]);
+    return $user;
 }

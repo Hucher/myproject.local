@@ -101,7 +101,7 @@ session_start();
                                 <a class="dropdown-item" href="edit.php?id=<?= $user['user_id'] ?>">
                                     <i class="fa fa-edit"></i>
                                     Редактировать</a>
-                                <a class="dropdown-item" href="security.html">
+                                <a class="dropdown-item" href="security.php?id=<?=$user['user_id']?>">
                                     <i class="fa fa-lock"></i>
                                     Безопасность</a>
                                 <a class="dropdown-item" href="status.html">

@@ -53,6 +53,7 @@ $user = getUserById($_GET['id'], $pdo);
     </div>
     <div class="row">
         <div class="col-lg-6 col-xl-6 m-auto">
+            <?php displayFlashMessage('success');?>
             <!-- profile summary -->
             <div class="card mb-g rounded-top">
                 <div class="row no-gutters row-grid">
