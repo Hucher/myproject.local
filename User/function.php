@@ -237,3 +237,14 @@ function updateAuthUser($userId, $email, $password, $pdo)
     ]);
     return $user;
 }
+
+//Изменить статус
+function updateStatus($userId, $status,$pdo){
+    $sql = 'UPDATE media SET status=:status WHERE user_id=:user_id';
+    $statement = $pdo->prepare($sql);
+    $status = $statement->execute([
+        'user_id' => $userId,
+        'status' => $status
+    ]);
+    return $status;
+}
