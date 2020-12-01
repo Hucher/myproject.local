@@ -158,9 +158,8 @@ function setStatus($status, $userId, $pdo)
 //Загрузить аватар профиля
 function uploadImage($fileTmp, $image, $pdo, $mediaId)
 {
-    $image = uniqid($image);
     $upload = move_uploaded_file($fileTmp, "img/demo/avatars/" . $image);
-
+    $image = 'img/demo/avatars/' . $image;
     if (!empty($mediaId && !empty($upload))) {
         $sql = 'UPDATE media SET image=:image WHERE media_id=:media_id';
         $statement = $pdo->prepare($sql);
@@ -247,4 +246,13 @@ function updateStatus($userId, $status,$pdo){
         'status' => $status
     ]);
     return $status;
+}
+
+//Имеется картинка у пользователя
+function hasImage(array $user){
+
+    if (!empty($user['image'])){
+        return true;
+    }
+    return false;
 }
