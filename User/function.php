@@ -256,3 +256,11 @@ function hasImage(array $user){
     }
     return false;
 }
+function deleteUser($pdo ,$userId){
+    $sql = "DELETE FROM users WHERE user_id=:user_id";
+    $statement = $pdo->prepare($sql);
+    $result = $statement->execute([
+        'user_id' => $userId
+    ]);
+    return $result;
+}

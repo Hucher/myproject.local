@@ -104,14 +104,14 @@ session_start();
                                 <a class="dropdown-item" href="security.php?id=<?=$user['user_id']?>">
                                     <i class="fa fa-lock"></i>
                                     Безопасность</a>
-                                <a class="dropdown-item" href="status.html">
+                                <a class="dropdown-item" href="status.php?id=<?=$user['user_id']?>">
                                     <i class="fa fa-sun"></i>
                                     Установить статус</a>
-                                <a class="dropdown-item" href="media.html">
+                                <a class="dropdown-item" href="media.php?id=<?=$user['user_id']?>">
                                     <i class="fa fa-camera"></i>
                                     Загрузить аватар
                                 </a>
-                                <a href="#" class="dropdown-item" onclick="return confirm('are you sure?');">
+                                <a href="realizationDeleteUser.php?id=<?=$user['user_id']?>" class="dropdown-item" onclick="return confirm('are you sure?');">
                                     <i class="fa fa-window-close"></i>
                                     Удалить
                                 </a>
